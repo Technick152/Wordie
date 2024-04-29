@@ -7,6 +7,7 @@
 void playGuesser();
 void title();
 void playHangman();
+void help();
 
 void main() {
 	title();
@@ -16,7 +17,7 @@ void title() {
 	system("cls");
 	int selectionInt = 0;
 
-	printf("Wordie!\n1. Play Word Guesser\n2. Play Hangman\nSelection: ");
+	printf("Wordie!\n1. Play Word Guesser\n2. Play Hangman\n3. Help\n4. Exit\nSelection: ");
 	scanf("%d", &selectionInt);
 
 	switch (selectionInt) {
@@ -25,6 +26,11 @@ void title() {
 			break;
 		case 2: 
 			playHangman();
+			break;
+		case 3:
+			help();
+			break;
+		case 4:
 			break;
 		default: 
 			title();
@@ -48,6 +54,7 @@ void playGuesser() {
 	
 	srand(time(0));
 	chosenWord = wordDict[rand() % 46];
+	//assigns random word from wordDict to chosenWord
 
 	while (strcmp(enteredWord, chosenWord) != 0 && i < 5) {
 		system("cls");
@@ -59,8 +66,7 @@ void playGuesser() {
 			if (90 >= enteredWord[s]) {
 				enteredWord[s] += 32;
 			}
-		}
-		//converts uppercase entries to lowercase
+		}//converts uppercase entries to lowercase
 
 		if (strlen(enteredWord) != 5) {
 			printf("Invalid Input\n");
@@ -87,45 +93,57 @@ void playGuesser() {
 }//checks win condition and prints proper output
 
 void playHangman() {
-	char wordDict[6][11] = {"gym", "yearn", "euler", "orange", "player", "western"};
+	char wordDict[13][11] = {"gym", "yearn", "euler", "orange", "player", "western",
+	"penguin", "werewolf", "insight", "typewriter", "aerodynamic", "omnipotent", "library"};
 	char* chosenWord;
 	char enteredLetter, wordLib[11] = "";
 	int chancesLeft = 5, isCorrect = 0;
 	//declares variables for randomly chosen word, entered word, and for correct chars
 
 	srand(time(0));
-	chosenWord = wordDict[rand() % 6];
+	chosenWord = wordDict[rand() % 13];
 
 	for (int i = 0; i < strlen(chosenWord); i++) {
 		wordLib[i] = '-';
-	}
+	}//hides word
 
 	while (strcmp(wordLib, chosenWord) != 0 && chancesLeft > 0) {
 		system("cls");
 		isCorrect = 0;
 
 		printf("Chances Left: %i\n%s\nEnter letter: ", chancesLeft, wordLib);
-		scanf("%s", &enteredLetter);
+		scanf("%s", &enteredLetter);//input prompt
+
 		if (90 >= enteredLetter) {
 			enteredLetter += 32;
-		}
+		}//converts enteredLetter into lowercase
 
 		for (int j = 0; j < strlen(chosenWord); j++) {
 			if (enteredLetter == chosenWord[j]) {
 				isCorrect = 1;
 				wordLib[j] = enteredLetter;
-			}
+			}/*checks if enteredLetter matches any in the chosenWord and coverts the
+			 corresponding wordLib character into the enteredLetter*/
 		}
 		if (isCorrect != 1) {
 			chancesLeft--;
-		}
+		}//removes a chance if no matches were found in the chosenWord
 	}
 	if (strcmp(wordLib, chosenWord) == 0) {
 		printf("You Win\n");
 	}
 	else {
 		printf("You lose\n");
-	}
+	}//gets proper output by checking wordLib and chosenWord match
+
+	system("pause");
+	title();
+}
+
+void help() {
+	system("cls");
+	printf("WORD GUESSER:\nThis game is will have you enter a five letter word and if any letters match in the same position it will change the    wordLib to include the matching letters");
+	printf("\n\nHANGMAN:\nIn this game you will enter a letter and it will reveal that letter in all positions it's present, if  it isn't present it will romove 1 of 5 chances\n");
 	system("pause");
 	title();
 }
