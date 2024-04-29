@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Wordie.vcxproj
+/Wordie.vcxproj.filters
+/Wordie.sln
